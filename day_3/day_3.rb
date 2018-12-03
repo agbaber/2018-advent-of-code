@@ -3,11 +3,14 @@ require 'matrix'
 FORMAT = /#(?<num>.+) @ (?<lpad>\d+),(?<vpad>\d+): (?<x>\d+)x(?<y>\d+)/
 
 @input = []
+@all_cuts = []
 
 def read_file
   File.open("input.txt", "r") do |f|
     f.each_line do |line|
-      @input << line.chomp.match(FORMAT)
+      match_data = line.chomp.match(FORMAT)
+      @input << match_data
+      @all_cuts << match_data['num']
     end
   end
 end
@@ -46,7 +49,9 @@ def plot_cuts
         if @matrix[lpad+index_x,vpad+index_y] == 0
           @matrix[lpad+index_x,vpad+index_y] = i['num']
         else
+          @all_cuts -= [@matrix[lpad+index_x,vpad+index_y]]
           @matrix[lpad+index_x,vpad+index_y] = 'X'
+          @all_cuts -= [i['num']]
         end
       end
     end
@@ -62,6 +67,7 @@ def run
   create_matrix
   plot_cuts
   puts find_overlaps
+  puts @all_cuts
 end
 
 run
