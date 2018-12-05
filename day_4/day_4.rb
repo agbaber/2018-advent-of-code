@@ -95,6 +95,8 @@ def run
   puts "Mins slept by above guard"
   puts @guard_mins_hash.max_by {|k,v| v}
   # 3457 * 40
+  puts @maximums.inspect
+  # 1901 * 47
 end
 
 run
