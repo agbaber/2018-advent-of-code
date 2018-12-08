@@ -85,6 +85,27 @@ def calculate_distances
     end
   end
 end
+
+@region_size = 0
+def calculate_distances_part_2
+  @matrix.each_with_index do |point, y, x|
+    # if @matrix[x,y] == 0
+      distances = 0
+      @input.each_with_index do |input_point, i|
+        # alphabet = ('A'..'Z').to_a
+        letter = i.to_s26.upcase
+        # require 'pry';binding.pry
+        distance = (input_point[0]-y).abs + (input_point[1]-x).abs
+        # puts "point #{y},#{x} is #{distance} distance from #{letter}"
+        distances += distance
+      end
+
+      if distances < 10000
+        @region_size += 1
+      end
+    # end
+  end
+end
 @infinite_chars = []
 
 def find_non_infinite_max
@@ -116,7 +137,7 @@ def count_instances
 end
 
 
-def run
+def run_part_1
   read_file
   create_matrix
   plot_points
@@ -130,4 +151,22 @@ def run
   puts @counts.max_by(&:last)
 end
 
-run
+def run_part_2
+  read_file
+  create_matrix
+  plot_points
+  calculate_distances_part_2
+  # puts @matrix.to_readable
+  # find_non_infinite_max
+  # puts @infinite_chars
+  # count_instances
+
+  puts "answer:"
+  puts @region_size
+  # puts @counts.max_by(&:last)
+end
+
+# run_part_1
+run_part_2
+
+# 44605 too low
